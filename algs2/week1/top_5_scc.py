@@ -22,9 +22,9 @@ def main():
     #:  run DFS again but with correct order
     
     #test graph
-    pathToTextFile = "../test_graph_test.txt"
-    test1 = Graph(textFile)
-    node1 = test1.getNode[0]
+    pathToTextFile = "../test_graph_text.txt"
+    test1 = Graph(pathToTextFile)
+    node1 = test1.getNode(0)
     #check if correct
     print(node1.getEdges())
     
@@ -64,12 +64,9 @@ Functions:
           getEdges
 """
 class Node:
-    name = None
-    leader = None
-    edges = []
     def __init__(self, numName, edge):
         self.name = numName
-        self.edges.append(edge)
+        self.edges = [edge]
         
     def setLeader(self, inst):
         self.leader = inst        

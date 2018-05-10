@@ -30,21 +30,12 @@ def main():
     
 
 #!!!!!!!!!!!!!!   LOOK INTO THIS
-thread = threading.Thread(target = main)   #Tells computer to thread the targetted function main
-thread.start()                             #Tells computer to start the new thread
+if __name__ == "__main__": 
+    thread = threading.Thread(target = main)   #Tells computer to thread the targetted function main
+    thread.start()   
+    main()                          #Tells computer to start the new thread
 #!!!!!!!!!!!!!!
 
-
-##=================== TEST  =================#
-import os
-from os import path
-basepath = os.getcwd()
-textFile = "test_graph_text"
-textFile = path.abspath(path.join(basepath, "..", textFile))
-f = open( textFile, "r")
-f.close()
-
-##=================== TEST  =================#
 
 # ============================    Define Classes to Use    ==========================#
 
@@ -101,38 +92,37 @@ Possible Edge Cases:
         May be safe to assume this will never happen
 """ 
 class Graph:
-    _nodes = []
-    _visited = None
     
     def __init__(self, graph_text, isRev=False):
+        self.nodes = []
+        self.visited = []
+        
         
         readIn = open( graph_text , mode = 'r' )
         isRev = 1 * isRev                                # 0 if false, 1 if True
         for line in readIn:
-            #line vertices and edges stored at line[0] and line[2]
-            #node and edge defined by whether reading in Graph or GraphRev
-            #Implement logic to do this for us
             nodeName = int( line[ 2 * (isRev % 2) ])           #Logic for new node
             edgeName = int( line[2 * ((1 + isRev) % 2)] )      #Logic for new Edge
             
-            #check if node exists
             if(nodeName < len(self._nodes)):
-                self._nodes[nodeName].addEdge(edgeName)
+ #WRONG               self.nodes[nodeName] = Node(nodeName,edgeName) #Wrong
+                
+                
             else:
                 newNode = Node( nodeName, edgeName )
-                self._nodes.append( newNode )
+                self.nodes.append( newNode )
             
         #once done getting all lines --> create boolean for visited
-        self.visited = [False] * len(self._nodes)
+        self.visited = [False] * len(self.nodes)
 
         
     def addNode(self, newNode):
-        self._nodes.append( newNode )
+        self.nodes.append( newNode )
     
     def getNode(self,n):
-        return self._nodes[n]
+        return self.nodes[n]
     def reset(self):
-        self._visited = [False] * len(self._nodes)
+        self.visited = [False] * len(self.nodes)
     
 #========================    Define Functions    =======================#            
 

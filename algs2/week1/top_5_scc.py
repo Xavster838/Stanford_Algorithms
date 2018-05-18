@@ -11,9 +11,10 @@ find top 5 Strongly Connected Components of a given directed graph
 import sys,threading
 sys.setrecursionlimit(800000)
 threading.stack_size(67108864)            #Set the thread stack size
+from Graph import Graph
 
 
-def main():
+def __main__():
     #1: get Graph
     #2: create order function
     #3: run through first loop of Kosaraju's algorithm
@@ -31,98 +32,29 @@ def main():
 
 #!!!!!!!!!!!!!!   LOOK INTO THIS
 if __name__ == "__main__": 
-    thread = threading.Thread(target = main)   #Tells computer to thread the targetted function main
-    thread.start()   
-    main()                          #Tells computer to start the new thread
+    #Tells computer to thread the targetted function main
+    thread = threading.Thread(target = __main__)   
+    thread.start()
+    #Tells computer to start the new thread
+    __main__()                          
 #!!!!!!!!!!!!!!
 
 
 # ============================    Define Classes to Use    ==========================#
-
-"""
-Node Class
-create class for each node of a graph, g
-Data:     
-          name:  numerical value index
-          leader (for kodaraju's two-pass scc algorithm), 
-          edges: list of edges that leave it
-
-Functions:
-          _init_(num)
-          setLeader
-          getLeader
-          addEdge
-          getEdges
-"""
-class Node:
-    def __init__(self, numName, edge):
-        self.name = numName
-        self.edges = [edge]
-        
+class Kosa_node(Node):
+    
+    #observe no need for __init__ because same data as regular node
     def setLeader(self, inst):
-        self.leader = inst        
-    def addEdge(self, inst):
-        self.edges.append(inst)
-    def getEdges(self):
-        return self.edges
+        self.leader = inst 
+    def getLeader(self):
+        return self.leader
 
 
-"""
-Graph Class
-create graph to store Nodes
-Date:    list of nodes
-         list of booleans checking if already seen
-             Note: boolean list implemented to quickly reset the graph for situations
-                   such as kosaraju's double pass algorithm
-         list of order:
-             List of how to run through 
-
-Functions:
-          _init_():    create graph or gRev from text file
-          addNode()
-          getGraph( string or other data structure of read text file) 
-          getGrev( string or list of read text file )
-              Note: gets input from input file in the opposite order of the regular graph
-          getNode(n) : Access node n
-          reset(): reset all visited to False
-
-Possible Edge Cases:
-    1. empty text file
-    2. text file with wrong ordering (i.e. more than 2 indices per line)
-        May be safe to assume this will never happen
-""" 
-class Graph:
+class Kosaraju_Graph(Graph):
     
-    def __init__(self, graph_text, isRev=False):
-        self.nodes = []
-        self.visited = []
+    def __init__(self, graph_text, isRev = False):
+        Graph.__init__(self, graph_text)
         
-        
-        readIn = open( graph_text , mode = 'r' )
-        isRev = 1 * isRev                                # 0 if false, 1 if True
-        for line in readIn:
-            nodeName = int( line[ 2 * (isRev % 2) ])           #Logic for new node
-            edgeName = int( line[2 * ((1 + isRev) % 2)] )      #Logic for new Edge
-            
-            if(nodeName < len(self._nodes)):
- #WRONG               self.nodes[nodeName] = Node(nodeName,edgeName) #Wrong
-                
-                
-            else:
-                newNode = Node( nodeName, edgeName )
-                self.nodes.append( newNode )
-            
-        #once done getting all lines --> create boolean for visited
-        self.visited = [False] * len(self.nodes)
-
-        
-    def addNode(self, newNode):
-        self.nodes.append( newNode )
-    
-    def getNode(self,n):
-        return self.nodes[n]
-    def reset(self):
-        self.visited = [False] * len(self.nodes)
     
 #========================    Define Functions    =======================#            
 
